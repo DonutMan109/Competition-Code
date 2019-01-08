@@ -7,35 +7,40 @@
 
 //Creates a competition object that allows access to Competition methods.
 vex::competition;
-bool toggle = true; //Sets the boolean "toggle" to true
-void switchdrive(){ //Switch drive function
-    toggle = !toggle; //Sets the boolean "toggle" to the opposite of itself (true/false)
-    if(toggle) { //Prints the driver control mode back on the controller screen
-        Controller1.Screen.print("      TANK    ");
+bool toggle = true;
+void switchdrive(){
+    toggle = !toggle;
+    if(toggle) {
+        Controller1.Screen.print("DC -  TANK    ");
     }
     else {
-        Controller1.Screen.print("      ARCADE  ");
+        Controller1.Screen.print("DC - ARCADE   ");
     }
 }
-void stop(){ //Stop Function
-    Controller1.rumble("."); //Vibrates the controller 
-    LeftDrive.stop(brakeType::hold); //Puts the motor's brakes on
-    RightDrive.stop(brakeType::hold); //Puts the motor's brakes on
-    Controller1.Screen.print("       HOLD   "); //Prints hold on the controller screen
+void stop(){
+    Controller1.rumble(".");
+    LeftDrive1.stop(brakeType::hold);
+    LeftDrive2.stop(brakeType::hold);
+    RightDrive1.stop(brakeType::hold);
+    RightDrive2.stop(brakeType::hold);
+    Controller1.Screen.print("       HOLD   ");
 }
-void release(){ //Release Stop Function
-    Controller1.rumble("."); //Vibrates the controller 
-    LeftDrive.stop(brakeType::coast); //Puts the motors back in coast mode
-    RightDrive.stop(brakeType::coast); //Puts the motors back in coast mode
-    Controller1.Screen.print("      RELEASED"); //Prints "RELEASED" on the controller screen
-    task::sleep(2000); //Holds Released on the screen for 2 seconds
-    if(toggle) { //Puts the driver control mode back on the controller screen
-        Controller1.Screen.print("      TANK    ");
+void release(){
+    Controller1.rumble(".");
+    LeftDrive1.stop(brakeType::coast);
+    LeftDrive2.stop(brakeType::coast);
+    RightDrive1.stop(brakeType::coast);
+    RightDrive2.stop(brakeType::coast);
+    Controller1.Screen.print("      RELEASED");
+    task::sleep(2000);
+    if(toggle) {
+        Controller1.Screen.print("DC  - TANK    ");
     }
     else {
-        Controller1.Screen.print("      ARCADE  ");
+        Controller1.Screen.print("DC  - ARCADE  ");
     }
 }
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -47,90 +52,84 @@ void release(){ //Release Stop Function
 /*---------------------------------------------------------------------------*/
 
 void pre_auton( void ) {
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
-  
+    Controller1.Screen.print("   Pre Auton  ");
 }
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              Autonomous Task                              */
-/*                                                                           */
-/*  This task is used to control your robot during the autonomous phase of   */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
 
 void autonomous( void ) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
-
 }
-
-/*----------------------------------------------------------------------------*/
-/*                                                                            */
-/*                              User Control Task                             */
-/*                                                                            */
-/*  This task is used to control your robot during the user control phase of  */
-/*  a VEX Competition.                                                        */
-/*                                                                            */
-/*  You must modify the code to add your own robot specific commands here.    */
-/*----------------------------------------------------------------------------*/
 
 void usercontrol( void ) {
-Controller1.ButtonL1.pressed(stop); //Runs stop function while L1 is pressed
-Controller1.ButtonL1.released(release); //Runs release function when L1 is released
-Controller1.ButtonX.pressed(switchdrive); //Runs the switchdrive function when X is pressed
+Brain.Screen.print("Driver Control");
+Controller1.ButtonL1.pressed(stop);
+Controller1.ButtonL1.released(release);
+Controller1.ButtonX.pressed(switchdrive);
     
-if(toggle) { //Labels which drive train is selected when driver control starts
-    Controller1.Screen.print("      TANK    ");
+if(toggle) {
+    Controller1.Screen.print("DC -  TANK    ");
 }
 else {
-    Controller1.Screen.print("      ARCADE  ");
+    Controller1.Screen.print("DC -  ARCADE  ");
 }
     
 
-    while(true){ //Runs constantly while program runs
-        
-        if(Controller1.ButtonR1.pressing()) { //Intake
-            Intake.spin(vex::directionType::fwd, 50, vex::velocityUnits::pct);
-        }
-        else if(Controller1.ButtonR2.pressing()) { //Cap Flipping
-            Intake.spin(vex::directionType::rev, 50, vex::velocityUnits::pct);
+    while(true){
+
+        if(Controller1.ButtonR1.pressing()) {
+            Intake.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
         }
         
-        if(Controller1.ButtonA.pressing()) { //Pull Back Catapult
-            Catapult.spin(vex::directionType::fwd, 50, vex::velocityUnits::pct);
+        else if(Controller1.ButtonR2.pressing()) {
+            Intake.spin(vex::directionType::rev, 100, vex::velocityUnits::pct);
         }
-        else {}
+        else {
+            Intake.stop(brakeType::coast);
+        }
+        if(Controller1.ButtonB.pressing()) {
+            Catapult.spin(directionType::fwd, 40, vex::velocityUnits::pct);
+        }
+        else {
+            Catapult.stop(brakeType::hold);
+        }
         
-        if(toggle) { //Drive Train Controls
-            if(Controller1.ButtonL1.pressing()) {} //If L1 because if L1 is pressed than the motors are on hold and running while on hold is a no no
-            else { //Tank Controls
+        if(toggle) {
+            if(Controller1.ButtonL1.pressing()) {
+            }
+            else {
                 RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
                 RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
-                RightDrive3.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
                 LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
-                LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
-                LeftDrive3.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+                LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
             }
         }
-        else { //Arcade Controls
-            if(Controller1.ButtonL1.pressing()) {} {} //If L1 because if L1 is pressed than the motors are on hold and running while on hold is a no no
-            else { //Probably doesnt work right now... dont really understand the split arcade controls. may need editing
-                LeftDrive1.spin(vex::directionType::fwd, (Controller1.Axis3.value() + Controller1.Axis1.value()*2), vex::velocityUnits::pct);
-                LeftDrive2.spin(vex::directionType::fwd, (Controller1.Axis3.value() + Controller1.Axis1.value()*2), vex::velocityUnits::pct);
-                LeftDrive3.spin(vex::directionType::fwd, (Controller1.Axis3.value() + Controller1.Axis1.value()*2), vex::velocityUnits::pct);
+        else {
+            if(Controller1.ButtonL1.pressing()) {
+            }
+            else {
                 RightDrive1.spin(vex::directionType::fwd, (Controller1.Axis3.value() - Controller1.Axis1.value()*2), vex::velocityUnits::pct);
                 RightDrive2.spin(vex::directionType::fwd, (Controller1.Axis3.value() - Controller1.Axis1.value()*2), vex::velocityUnits::pct);
-                RightDrive3.spin(vex::directionType::fwd, (Controller1.Axis3.value() - Controller1.Axis1.value()*2), vex::velocityUnits::pct);
+                LeftDrive1.spin(vex::directionType::fwd, (Controller1.Axis3.value() + Controller1.Axis1.value()*2), vex::velocityUnits::pct);
+                LeftDrive2.spin(vex::directionType::fwd, (Controller1.Axis3.value() + Controller1.Axis1.value()*2), vex::velocityUnits::pct);
+                
             }
         }
-        if(Brain.timer(timeUnits::sec) == 25) { //Warning 25secs in competition
-            Controller1.rumble(".-.-");
         }
-        else{}
     }
+
+//
+// Main will set up the competition functions and callbacks.
+//
+int main() {
+    
+    //Run the pre-autonomous function. 
+    pre_auton();
+    
+    //Set up callbacks for autonomous and driver control periods.
+    Competition.autonomous( autonomous );
+    Competition.drivercontrol( usercontrol );
+
+    //Prevent main from exiting with an infinite loop.                        
+    while(1) {
+      vex::task::sleep(100);//Sleep the task for a short amount of time to prevent wasted resources.
+    }    
+       
 }
