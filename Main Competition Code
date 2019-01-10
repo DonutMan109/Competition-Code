@@ -1,11 +1,4 @@
 #include "robot-config.h"
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*        Description: Competition template for VCS VEX V5                   */
-/*                                                                           */
-/*---------------------------------------------------------------------------*/
-
-//Creates a competition object that allows access to Competition methods.
 vex::competition;
 bool toggle = true;
 int catapot = Potentiometer1.value(analogUnits::range12bit);
@@ -64,7 +57,6 @@ else {
     Controller1.Screen.print("DC -  ARCADE  ");
 }
     
-
     while(true){
 
         if(Controller1.ButtonR1.pressing()) {
@@ -114,21 +106,11 @@ else {
    
 } //End of Driver Control
 
-//
-// Main will set up the competition functions and callbacks.
-//
 int main() {
-    
-    //Run the pre-autonomous function. 
     pre_auton();
-    
-    //Set up callbacks for autonomous and driver control periods.
     Competition.autonomous( autonomous );
-    Competition.drivercontrol( usercontrol );
-
-    //Prevent main from exiting with an infinite loop.                        
+    Competition.drivercontrol( usercontrol );                   
     while(1) {
       vex::task::sleep(100);//Sleep the task for a short amount of time to prevent wasted resources.
-    }    
-       
+    }           
 }
