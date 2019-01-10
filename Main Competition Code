@@ -19,39 +19,29 @@ void switchdrive(){
         Controller1.Screen.print("DC - ARCADE   ");
     }
 }
-void stop(){
-    Controller1.rumble(".");
-    LeftDrive1.stop(brakeType::hold);
-    LeftDrive2.stop(brakeType::hold);
-    RightDrive1.stop(brakeType::hold);
-    RightDrive2.stop(brakeType::hold);
-    Controller1.Screen.print("       HOLD   ");
-}
-void release(){
-    Controller1.rumble(".");
-    LeftDrive1.stop(brakeType::coast);
-    LeftDrive2.stop(brakeType::coast);
-    RightDrive1.stop(brakeType::coast);
-    RightDrive2.stop(brakeType::coast);
-    Controller1.Screen.print("      RELEASED");
-    task::sleep(2000);
-    if(toggle) {
-        Controller1.Screen.print("DC  - TANK    ");
-    }
-    else {
-        Controller1.Screen.print("DC  - ARCADE  ");
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-/*                          Pre-Autonomous Functions                         */
-/*                                                                           */
-/*  You may want to perform some actions before the competition starts.      */
-/*  Do them in the following function.  You must return from this function   */
-/*  or the autonomous and usercontrol tasks will not be started.  This       */
-/*  function is only called once after the cortex has been powered on and    */
-/*  not every time that the robot is disabled.                               */
-/*---------------------------------------------------------------------------*/
+//void stop(){
+//    Controller1.rumble(".");
+//    LeftDrive1.stop(brakeType::hold);
+//    LeftDrive2.stop(brakeType::hold);
+//    RightDrive1.stop(brakeType::hold);
+//    RightDrive2.stop(brakeType::hold);
+//    Controller1.Screen.print("       HOLD   ");
+//}
+//void release(){
+//    Controller1.rumble(".");
+//    LeftDrive1.stop(brakeType::coast);
+//    LeftDrive2.stop(brakeType::coast);
+//    RightDrive1.stop(brakeType::coast);
+//    RightDrive2.stop(brakeType::coast);
+//    Controller1.Screen.print("      RELEASED");
+//    task::sleep(2000);
+//    if(toggle) {
+//        Controller1.Screen.print("DC  - TANK    ");
+//    }
+//    else {
+//        Controller1.Screen.print("DC  - ARCADE  ");
+//    }
+//}
 
 void pre_auton( void ) {
     Controller1.Screen.print("   Pre Auton  ");
@@ -95,10 +85,10 @@ else {
         }
         
         if(Controller1.Axis2.value()+Controller1.Axis3.value()==0){
-            RightDrive1.stop(brakeType::coast);
-            RightDrive2.stop(brakeType::coast);
-            LeftDrive1.stop(brakeType::coast);
-            LeftDrive2.stop(brakeType::coast);
+            RightDrive1.stop(brakeType::hold);
+            RightDrive2.stop(brakeType::hold);
+            LeftDrive1.stop(brakeType::hold);
+            LeftDrive2.stop(brakeType::hold);
         }
         else {}
         
