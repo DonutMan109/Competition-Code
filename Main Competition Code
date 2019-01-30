@@ -3,39 +3,209 @@
 vex::competition;
 bool toggledrive = true;
 bool pid = false;
-void stop(){
-    Controller1.rumble(".");
-    LeftDrive1.stop(brakeType::hold);
-    LeftDrive2.stop(brakeType::hold);
-    RightDrive1.stop(brakeType::hold);
-    RightDrive2.stop(brakeType::hold);
-    Controller1.Screen.print("       HOLD   ");
-}
-void release(){
-    Controller1.rumble(".");
-    LeftDrive1.stop(brakeType::coast);
-    LeftDrive2.stop(brakeType::coast);
-    RightDrive1.stop(brakeType::coast);
-    RightDrive2.stop(brakeType::coast);
-    Controller1.Screen.print("      RELEASED");
-    task::sleep(2000);    
-}
+//void stop(){
+//    Controller1.rumble(".");
+//    LeftDrive1.stop(brakeType::hold);
+//    LeftDrive2.stop(brakeType::hold);
+//    RightDrive1.stop(brakeType::hold);
+//    RightDrive2.stop(brakeType::hold);
+//    Controller1.Screen.print("       HOLD   ");
+//}
+//void release(){
+//    Controller1.rumble(".");
+//    LeftDrive1.stop(brakeType::coast);
+//    LeftDrive2.stop(brakeType::coast);
+//    RightDrive1.stop(brakeType::coast);
+//    RightDrive2.stop(brakeType::coast);
+//    Controller1.Screen.print("      RELEASED");
+//    task::sleep(2000);
+//    if(pid) {
+//          if(toggledrive) {
+//          Controller1.Screen.print("   PID Tank   ");
+//          Controller2.Screen.print("   PID Tank   ");
+//          }
+//           else{
+//          Controller1.Screen.print("  PID Rev-Tank");
+//          Controller2.Screen.print("  PID Rev-Tank");
+//           }  
+//          }
+//          else {
+//          if(toggledrive) {
+//          Controller1.Screen.print("       Tank   ");
+//          Controller2.Screen.print("       Tank   ");
+//          }
+//           else{
+//          Controller1.Screen.print("   Rev-Tank   ");
+//          Controller2.Screen.print("   Rev-Tank   ");
+//           }  
+//          }
+//}
 void pre_auton( void ) {
 }
 void autonomous( void ) {
 }
 
 void usercontrol( void ) {
-  Controller1.ButtonL1.pressed( stop );
-  Controller1.ButtonL1.released( release );
+  if(pid) {
+          if(toggledrive) {
+          Controller1.Screen.print("   PID Tank   ");
+          Controller2.Screen.print("   PID Tank   ");
+          }
+           else{
+          Controller1.Screen.print("  PID Rev-Tank");
+          Controller2.Screen.print("  PID Rev-Tank");
+           }  
+          }
+          else {
+          if(toggledrive) {
+          Controller1.Screen.print("       Tank   ");
+          Controller2.Screen.print("       Tank   ");
+          }
+           else{
+          Controller1.Screen.print("   Rev-Tank   ");
+          Controller2.Screen.print("   Rev-Tank   ");
+           }  
+          }
+//  Controller1.ButtonL1.pressed( stop );
+//  Controller1.ButtonL1.released( release );
+ // while(true) {
+ //       int xPos = Brain.Screen.xPosition();
+  //      int yPos = Brain.Screen.yPosition();
+  //      
+       // Brain.Screen.clearScreen();
+  //      
+  //      if (Brain.Screen.pressing()) {
+  //          if (xPos <= 155 && xPos >= 85 && yPos >= 115 && yPos <= 185) { //Left Circle
+  //              Catapult.spin(directionType::fwd, 50, vex::velocityUnits::pct);
+  //              Brain.Screen.setPenColor(color::green);
+  //              Brain.Screen.drawCircle(120, 150, 70);
+  //              Brain.Screen.setPenColor(color::red);
+  //              Brain.Screen.drawCircle(330, 150, 70);
+  //              Brain.Screen.drawCircle(220, 80, 30);
+  //          }
+  //          else if (xPos >= 295 && xPos <= 365 && yPos >= 115 && yPos <= 185) { //Right Circle
+  //              Catapult.spin(directionType::rev, 50, vex::velocityUnits::pct);
+  //              Brain.Screen.setPenColor(color::red);
+  //              Brain.Screen.drawCircle(120, 150, 70);
+  //              Brain.Screen.drawCircle(220, 80, 30);
+  //              Brain.Screen.setPenColor(color::green);
+  //              Brain.Screen.drawCircle(330, 150, 70);
+  //          }
+  //          else if (xPos <= 235 && xPos >= 205 && yPos >= 65 && yPos <= 95) { //Center Circle
+  //              Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+  //              task::sleep(400);
+  //              while(Catapot.value(rotationUnits::deg) > 172.3) {
+  //                  Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+  //              }
+  //              Catapult.stop();
+  //              Brain.Screen.setPenColor(color::green);
+  //              Brain.Screen.drawCircle(220, 80, 30);
+  //              Brain.Screen.setPenColor(color::red);
+  //              Brain.Screen.drawCircle(330, 150, 70);
+  //              Brain.Screen.drawCircle(120, 150, 70);
+  //          }
+  //          else{
+  //            Catapult.stop(brakeType::hold);
+  //              Brain.Screen.setPenColor(color::red);
+  //              Brain.Screen.drawCircle(120, 150, 70);
+  //              Brain.Screen.drawCircle(330, 150, 70);
+  //              Brain.Screen.drawCircle(220, 80, 30);
+  //          }
+  //      } else {
+  //          Catapult.stop(brakeType::hold);
+  //          Brain.Screen.setPenColor(color::red);
+  //          Brain.Screen.drawCircle(120, 150, 70);
+  //          Brain.Screen.drawCircle(330, 150, 70);
+ //           Brain.Screen.drawCircle(220, 80, 30);
+ //       }
+ //       Brain.Screen.setPenColor(color::white);
+ //       Brain.Screen.printAt(170, 20, "Catapult rotation: %f degrees", Catapot.value(rotationUnits::deg));
+ //       
+  //      task::sleep(10);
+  //  }
   while (1){
-    Lift.spin(vex::directionType::fwd, Controller2.Axis2.value(), vex::velocityUnits::pct);
-    Flipper.spin(vex::directionType::fwd, Controller2.Axis3.value(), vex::velocityUnits::pct);
-    Lift.stop(brakeType::hold);
+    Controller2.Screen.print("Lift Temp: %f", Lift.temperature(percentUnits::pct));
     Flipper.stop(brakeType::hold);
+    Lift.stop(brakeType::hold);
+    Lift.spin(vex::directionType::rev, Controller2.Axis2.value(), vex::velocityUnits::pct);
+    Flipper.spin(vex::directionType::rev, Controller2.Axis3.value()/2, vex::velocityUnits::pct);
+    if(Controller2.ButtonL2.pressing()) { //All the way down
+        while(Flipperpot.value(rotationUnits::deg) < 221) {//Change Value
+            Flipper.spin(directionType::fwd, 70, vex::velocityUnits::pct);
+            if(toggledrive) {
+      LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+  }
+  else {
+      LeftDrive1.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+  }
+        }
+        Flipper.stop();
+    }
+    if(Controller2.ButtonL1.pressing()) { //Mid / Flipped position
+        while(Flipperpot.value(rotationUnits::deg) > 108) {//Change Value
+            Flipper.spin(directionType::rev, 30, vex::velocityUnits::pct);
+            if(toggledrive) {
+      LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+  }
+  else {
+      LeftDrive1.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+  }
+        }
+        Flipper.stop();
+    }
+    if(Controller2.ButtonB.pressing()) { //All the way up
+        while(Flipperpot.value(rotationUnits::deg) > .7) {//Change Value
+            Flipper.spin(directionType::rev, 70, vex::velocityUnits::pct);
+            if(toggledrive) {
+      LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+  }
+  else {
+      LeftDrive1.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+  }
+        }
+        Flipper.stop();
+    }
     if(Controller1.ButtonY.pressing()) {
         Controller1.rumble(".");
         pid = !pid;
+        if(pid) {
+          if(toggledrive) {
+          Controller1.Screen.print("   PID Tank   ");
+          Controller2.Screen.print("   PID Tank   ");
+          }
+           else{
+          Controller1.Screen.print("  PID Rev-Tank");
+          Controller2.Screen.print("  PID Rev-Tank");
+           }  
+          }
+          else {
+          if(toggledrive) {
+          Controller1.Screen.print("       Tank   ");
+          Controller2.Screen.print("       Tank   ");
+          }
+           else{
+          Controller1.Screen.print("   Rev-Tank   ");
+          Controller2.Screen.print("   Rev-Tank   ");
+           }  
+          }
     }
     if(pid) {
         LeftDrive1.stop(brakeType::hold);
@@ -77,15 +247,56 @@ void usercontrol( void ) {
          Intake.stop();
      }
      if(Controller1.ButtonB.pressing()) {
-         Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
-        //Controller1.rumble(".");
         //Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
-        //task::sleep(400);
-        //while(Catapot.value(rotationUnits::deg) < 173.3 ) {
+        Controller1.rumble(".");
+        Lift.spin(directionType::fwd, 100, vex::velocityUnits::pct);
+        task::sleep(500);
+        Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+        task::sleep(400);
+        while(Catapot.value(rotationUnits::deg) > 173.3 ) {
+        Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+        if(toggledrive) {
+      LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+  }
+  else {
+      LeftDrive1.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+  }
+        }
+        Catapult.stop(brakeType::hold);
+        Lift.stop();
+        Controller1.rumble(".");
+        }
+      else if(Controller1.ButtonL1.pressing()) {
         //Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
-        //}
-        //Catapult.stop(brakeType::hold);
-        //Controller1.rumble(".");
+        Controller1.rumble(".");
+        Lift.spin(directionType::fwd, 100, vex::velocityUnits::pct);
+        task::sleep(500);
+        Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+        task::sleep(400);
+        while(Catapot.value(rotationUnits::deg) > 173.3 ) {
+        Catapult.spin(directionType::rev, 100, vex::velocityUnits::pct);
+        if(toggledrive) {
+      LeftDrive1.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::fwd, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::fwd, Controller1.Axis2.value(), vex::velocityUnits::pct);
+  }
+  else {
+      LeftDrive1.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      LeftDrive2.spin(vex::directionType::rev, Controller1.Axis2.value(), vex::velocityUnits::pct);
+      RightDrive1.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+      RightDrive2.spin(vex::directionType::rev, Controller1.Axis3.value(), vex::velocityUnits::pct);
+  }
+        }
+        Catapult.stop(brakeType::hold);
+        Lift.stop();
+        Controller1.rumble(".");
         }
       else {
           Catapult.stop(brakeType::hold);
@@ -97,11 +308,22 @@ int main() {
     pre_auton();
 
     Competition.autonomous( autonomous );
-    Competition.drivercontrol( usercontrol );                     
+    Competition.drivercontrol( usercontrol );
     while(1) {
       if(Controller1.ButtonX.pressing()) {
           Controller1.rumble(".");
           toggledrive = !toggledrive;
+          if(pid) {
+          if(toggledrive) {
+          Controller1.Screen.print("   PID Tank   ");
+          Controller2.Screen.print("   PID Tank   ");
+          }
+           else{
+          Controller1.Screen.print("  PID Rev-Tank");
+          Controller2.Screen.print("  PID Rev-Tank");
+           }  
+          }
+          else {
           if(toggledrive) {
           Controller1.Screen.print("       Tank   ");
           Controller2.Screen.print("       Tank   ");
@@ -110,6 +332,7 @@ int main() {
           Controller1.Screen.print("   Rev-Tank   ");
           Controller2.Screen.print("   Rev-Tank   ");
            }  
+          }
       }
       vex::task::sleep(100);
     }    
